@@ -1,7 +1,7 @@
 # AussieAdventures
 
 ##Project Description
-Aussie Adventures is made for travel inspiration in the 'new normal'.  Friends and family can come together on our site to share the places they can't wait to see... when we're finally allowed to.  Aussie Adventures provides a gallery of inspirational places to visit, with users' own photos, locations and essential geographical data.
+Aussie Adventures is made for travel inspiration in the 'new normal'. Friends and family can come together on our site to share the places they can't wait to see... when we're finally allowed to. Aussie Adventures provides a gallery of inspirational places to visit, with users' own photos, locations and essential geographical data.
 
 ### User Stories
 
@@ -37,8 +37,9 @@ As a user...
 
 ### Wireframes
 
-!AA Mobile Wireframe.png
-!AA Wireframe.png
+![Mobile Page](./assets/screenshots/Mobile01.png)
+![Mobile Modal](./assets/screenshots/Mobile02.png)
+![Desktop Page](./assets/screenshots/Desktop01.png)
 
 ### APIs to be used
 
