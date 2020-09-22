@@ -33,6 +33,8 @@ As a user
 I want to share this site with other friends and family
 So that they can contribute too
 
+As a user...
+
 ### Wireframes
 
 !AA Mobile Wireframe.png
