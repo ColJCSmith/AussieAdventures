@@ -48,3 +48,15 @@ img {
 body {
   background-color: #2a3d4c;
 }
+
+#loading {
+  display: none;
+  opacity: 0.8;
+  width: 50%;
+  max-width: 200px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
