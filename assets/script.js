@@ -1,11 +1,13 @@
 const airtableRead =
   "https://api.airtable.com/v0/appnjLNnNOAa7as5U/Table%201?api_key=keyJY1gNiblDln7CL";
 function callAirtable() {
+  loading("on");
   $.ajax({
     url: airtableRead,
     method: "GET",
   }).done(function (response) {
     console.log(response);
+    loading("off");
     renderCards(response.records);
   });
 }
@@ -65,5 +67,21 @@ function renderStars(numStars) {
 }
 
 // event listener to handle filter button
+$("#filterBtn").click(function () {
+  $("#filterForm").toggle();
+});
 
 // event listener for learn more to show() / hide() the extra content
+
+// loading spinner function
+function loading(status) {
+  if (status === "on") {
+    $("#cardWrapper").hide();
+    $("#loading").show();
+  } else {
+    $("#cardWrapper").show();
+    $("#loading").hide();
+  }
+}
+// Initial Airtable call
+$(document).ready(callAirtable());
