@@ -21,7 +21,7 @@ var map = new mapboxgl.Map({
 function renderCards(response) {
   // loop through our card array
   for (let i = 0; i < response.length; i++) {
-    // add all the HTML handles
+    // create <div> and subsequent elements
     const cardDiv = $("<div>");
     cardDiv.addClass("card");
     const cardImg = $("<img>");
@@ -35,23 +35,34 @@ function renderCards(response) {
     // connect the HTML to the API data
     $(cardImg).attr("src", response[i].fields.Image[0].url);
     $(location).text(response[i].fields.Destination);
-    //renderStars(parseInt(response[i].fields["Star Rating"][0]));
+    $(rating).html(renderStars(parseInt(response[i].fields["Star Rating"][0])));
     $(description).text(response[i].fields.Notes);
     $(learnMore).text("Learn More");
 
     // Append data to the card
-    $(cardDiv).append(cardImg, location, /*rating,*/ description, learnMore);
+    $(cardDiv).append(cardImg, location, rating, description, learnMore);
 
     // Append the card to the container
     $("#container").append(cardDiv);
   }
-
-  // create <div> and subsequent elements
-  // connect the API data to the html elements
-  // append the new elements to the DOM container
 }
 
-// renderStars(numStars) {}
+function renderStars(numStars) {
+  const result = $("<div>");
+  for (let i = 1; i <= 5; i++) {
+    const starImg = $("<img>");
+    if (i > numStars) {
+      // empty star
+      $(starImg).attr("src", "assets/images/star-empty.svg");
+    } else {
+      // full star
+      $(starImg).attr("src", "assets/images/star-full.svg");
+    }
+    $(result).append(starImg);
+  }
+  // return the html of the star rating
+  return result;
+}
 
 // event listener to handle filter button
 
