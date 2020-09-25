@@ -9,9 +9,10 @@ html {
 *:after {
   box-sizing: inherit;
 }
-
+heading {
+  height: 80px;
+}
 body,
-h1,
 h2,
 h3,
 h4,
@@ -27,7 +28,17 @@ ul {
   color: #fff;
 }
 
-h1,
+h1 {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 40px;
+  line-height: 27px;
+  color: #FFFFFF;
+  padding: 20px 20px 80px 80px;
+
+}
+
 h2 {
   font-weight: 500;
 }
@@ -47,6 +58,50 @@ img {
 }
 body {
   background-color: #2a3d4c;
+}
+
+.card {
+  width:30%;
+  background-color: #496175;
+  filter: drop-shadow(0px 4px 4px);
+}
+
+#filter {
+  margin-left: 50px;
+  color: #fff;
+}
+
+#filterBtn {
+  color: #fff;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+location {
+font-size: 24px;
+color: #fff;
+padding: 15px;
+
+}
+.description {
+  color: #fff;
+  border-bottom: 1px solid #FFFFFF;
+  margin: 15px;
+  padding-bottom: 20px;
+}
+#learnMore {
+margin-left: 30%;
+
+}
+#map {
+  width: 400px;
+  height: 400px;
+}
+#like {
+  float: right;
+  height: 15%;
+  width: 15%;
+  padding:15px;
 }
 
 #loading {
