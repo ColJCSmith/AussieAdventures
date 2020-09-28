@@ -1,6 +1,17 @@
 let airtableResponse;
 const airtableRead =
   "https://api.airtable.com/v0/appnjLNnNOAa7as5U/Table%201?api_key=keyJY1gNiblDln7CL";
+
+// MapBox Config
+mapboxgl.accessToken =
+  "pk.eyJ1IjoiYWN0aXZlY29ybmVyIiwiYSI6ImNrNWE4bXJkbzB0Z2kzbHBvbm50ZXRycmkifQ.CLzXsbfMvur87jTtuBreKg";
+let map = new mapboxgl.Map({
+  container: "map",
+  style: "mapbox://styles/mapbox/streets-v11",
+  center: [146.153856, -32.621438],
+  zoom: 13,
+});
+
 function callAirtable() {
   loading("on");
   $.ajax({
@@ -14,13 +25,16 @@ function callAirtable() {
   });
 }
 
-// MapBox Config
-// mapboxgl.accessToken =
-//   "pk.eyJ1IjoiYWN0aXZlY29ybmVyIiwiYSI6ImNrNWE4bXJkbzB0Z2kzbHBvbm50ZXRycmkifQ.CLzXsbfMvur87jTtuBreKg";
-// var map = new mapboxgl.Map({
-//   container: "map",
-//   style: "mapbox://styles/mapbox/streets-v11",
-// });
+function getMap(cardNumber) {
+  let coords = airtableResponse[cardNumber].fields[
+    "Location Coordinates"
+  ].split("°");
+  let lat = parseFloat(coords[0]);
+  let long = parseFloat(coords[1].split(" ")[2]);
+  map.flyTo({
+    center: [long, lat],
+  });
+}
 
 function renderCards() {
   // loop through our card array
@@ -97,16 +111,19 @@ function showFullCard(cardNumber) {
   );
   $("#fullCard .description").text(airtableResponse[cardNumber].fields.Notes);
 
+  // Call Mapbox API
+  getMap(cardNumber);
+
   $("#fullCard").show();
   window.scrollTo(0, 0);
 }
+
+/*#### EVENT LISTENERS ####*/
 
 // event listener to handle filter button
 $("#filterBtn").click(function () {
   $("#filterForm").toggle();
 });
-
-// event listener for learn more to show() / hide() the extra content
 
 // loading spinner function
 function loading(status) {
