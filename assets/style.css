@@ -243,6 +243,8 @@ location {
 
 #fullCard {
   display: none;
+  max-width: 800px;
+  margin: auto;
 }
 
 @media (min-width: 600px) {

@@ -2,6 +2,13 @@ let airtableResponse;
 const airtableRead =
   "https://api.airtable.com/v0/appnjLNnNOAa7as5U/Table%201?api_key=keyJY1gNiblDln7CL";
 
+var Airtable = require("airtable");
+Airtable.configure({
+  endpointUrl: "https://api.airtable.com",
+  apiKey: "keyJY1gNiblDln7CL",
+});
+var base = Airtable.base("appnjLNnNOAa7as5U");
+
 // MapBox Config
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYWN0aXZlY29ybmVyIiwiYSI6ImNrNWE4bXJkbzB0Z2kzbHBvbm50ZXRycmkifQ.CLzXsbfMvur87jTtuBreKg";
@@ -54,6 +61,7 @@ function renderCards() {
     learnMore.attr("data-index", i);
     const liked = $("<img>");
     liked.addClass("liked");
+    liked.attr("data-index", i);
 
     // connect the HTML to the API data
     $(cardImg).attr("src", airtableResponse[i].fields.Image[0].url);
@@ -118,6 +126,19 @@ function showFullCard(cardNumber) {
   window.scrollTo(0, 0);
 }
 
+function likeToggle(index) {
+  console.log(airtableResponse[index].id);
+  // if (airtableResponse[index].fields.Liked) {
+  //   base("Table 1").update(airtableResponse[index].id, {
+  //     Liked: false,
+  //   });
+  // } else {
+  //   base("Table 1").update(airtableResponse[index].id, {
+  //     Liked: true,
+  //   });
+  // }
+}
+
 /*#### EVENT LISTENERS ####*/
 
 // event listener to handle filter button
@@ -140,6 +161,8 @@ function loading(status) {
 $("#cardContainer").click(function (e) {
   if (e.target.nodeName === "BUTTON") {
     showFullCard($(e.target).attr("data-index"));
+  } else if ($(e.target).attr("class") === "liked") {
+    likeToggle($(e.target).attr("data-index"));
   }
 });
 
