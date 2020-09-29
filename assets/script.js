@@ -1,13 +1,11 @@
 let airtableResponse;
 const airtableRead =
-  "https://api.airtable.com/v0/appnjLNnNOAa7as5U/Table%201?api_key=keyJY1gNiblDln7CL";
+  "https://api.airtable.com/v0/appnjLNnNOAa7as5U/holidayData?api_key=keyJY1gNiblDln7CL";
 
 var Airtable = require("airtable");
-Airtable.configure({
-  endpointUrl: "https://api.airtable.com",
-  apiKey: "keyJY1gNiblDln7CL",
-});
-var base = Airtable.base("appnjLNnNOAa7as5U");
+var base = new Airtable({ apiKey: "keyJY1gNiblDln7CL" }).base(
+  "appnjLNnNOAa7as5U"
+);
 
 // MapBox Config
 mapboxgl.accessToken =
@@ -128,6 +126,22 @@ function showFullCard(cardNumber) {
 
 function likeToggle(index) {
   console.log(airtableResponse[index].id);
+  base("holidayData").update(
+    [
+      {
+        id: airtableResponse[index].id,
+        fields: {
+          Liked: true,
+        },
+      },
+    ],
+    function (err) {
+      if (err) {
+        console.error(err);
+        return;
+      }
+    }
+  );
   // if (airtableResponse[index].fields.Liked) {
   //   base("Table 1").update(airtableResponse[index].id, {
   //     Liked: false,
