@@ -1,6 +1,6 @@
 let airtableResponse;
 const airtableRead =
-  "https://api.airtable.com/v0/appnjLNnNOAa7as5U/Table%201?api_key=keyJY1gNiblDln7CL";
+  "https://api.airtable.com/v0/appnjLNnNOAa7as5U/holidayData?api_key=keyJY1gNiblDln7CL";
 
 var Airtable = require("airtable");
 Airtable.configure({
