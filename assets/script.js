@@ -126,12 +126,14 @@ function showFullCard(cardNumber) {
 function likeToggle(target, index) {
   let patchData;
   if (airtableResponse[index].fields.Liked) {
+    $(target).attr("src", "assets/images/heart-icon.svg");
     patchData = {
       fields: {
         Liked: false,
       },
     };
   } else {
+    $(target).attr("src", "assets/images/heart-icon-filled.svg");
     patchData = {
       fields: {
         Liked: true,
@@ -147,11 +149,6 @@ function likeToggle(target, index) {
     url: `https://api.airtable.com/v0/appnjLNnNOAa7as5U/holidayData/${airtableResponse[index].id}`,
     type: "PATCH",
     data: JSON.stringify(patchData),
-  }).done(function () {
-    console.log($(target).attr("src"));
-    airtableResponse[index].fields.Liked
-      ? $(target).attr("src", "assets/images/heart-icon-filled.svg")
-      : $(target).attr("src", "assets/images/heart-icon.svg");
   });
 }
 
