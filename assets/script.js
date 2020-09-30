@@ -2,13 +2,6 @@ let airtableResponse;
 const airtableRead =
   "https://api.airtable.com/v0/appnjLNnNOAa7as5U/holidayData?api_key=keyJY1gNiblDln7CL";
 
-var Airtable = require("airtable");
-Airtable.configure({
-  endpointUrl: "https://api.airtable.com",
-  apiKey: "keyJY1gNiblDln7CL",
-});
-var base = Airtable.base("appnjLNnNOAa7as5U");
-
 // MapBox Config
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYWN0aXZlY29ybmVyIiwiYSI6ImNrNWE4bXJkbzB0Z2kzbHBvbm50ZXRycmkifQ.CLzXsbfMvur87jTtuBreKg";
@@ -54,6 +47,7 @@ function renderCards() {
     const location = $("<location>");
     const rating = $("<div>");
     rating.addClass("stars");
+    rating.attr("data-index", i);
     const description = $("<p>");
     description.addClass("description");
     const learnMore = $("<button>");
@@ -99,6 +93,8 @@ function renderStars(numStars) {
       // full star
       $(starImg).attr("src", "assets/images/star-full.svg");
     }
+    $(starImg).attr("data-rating", i);
+    $(starImg).addClass("star");
     $(result).append(starImg);
   }
   // return the html of the star rating
@@ -126,17 +122,53 @@ function showFullCard(cardNumber) {
   window.scrollTo(0, 0);
 }
 
-function likeToggle(index) {
-  console.log(airtableResponse[index].id);
-  // if (airtableResponse[index].fields.Liked) {
-  //   base("Table 1").update(airtableResponse[index].id, {
-  //     Liked: false,
-  //   });
-  // } else {
-  //   base("Table 1").update(airtableResponse[index].id, {
-  //     Liked: true,
-  //   });
-  // }
+// Update liked status to AirTable and render new icon
+function likeToggle(target, index) {
+  let patchData;
+  if (airtableResponse[index].fields.Liked) {
+    patchData = {
+      fields: {
+        Liked: false,
+      },
+    };
+  } else {
+    patchData = {
+      fields: {
+        Liked: true,
+      },
+    };
+  }
+
+  $.ajax({
+    headers: {
+      Authorization: "Bearer keyJY1gNiblDln7CL",
+      "Content-Type": "application/json",
+    },
+    url: `https://api.airtable.com/v0/appnjLNnNOAa7as5U/holidayData/${airtableResponse[index].id}`,
+    type: "PATCH",
+    data: JSON.stringify(patchData),
+  });
+}
+
+// Change star review for a given card. Update data to Airtable
+function updateReview(target, rating, index) {
+  let patchData = {
+    fields: {
+      "Star Rating": [rating],
+    },
+  };
+
+  $.ajax({
+    headers: {
+      Authorization: "Bearer keyJY1gNiblDln7CL",
+      "Content-Type": "application/json",
+    },
+    url: `https://api.airtable.com/v0/appnjLNnNOAa7as5U/holidayData/${airtableResponse[index].id}`,
+    type: "PATCH",
+    data: JSON.stringify(patchData),
+  }).done(function () {
+    $(target).parent().parent().html(renderStars(rating));
+  });
 }
 
 /*#### EVENT LISTENERS ####*/
@@ -162,7 +194,13 @@ $("#cardContainer").click(function (e) {
   if (e.target.nodeName === "BUTTON") {
     showFullCard($(e.target).attr("data-index"));
   } else if ($(e.target).attr("class") === "liked") {
-    likeToggle($(e.target).attr("data-index"));
+    likeToggle(e.target, $(e.target).attr("data-index"));
+  } else if ($(e.target).attr("class") === "star") {
+    updateReview(
+      e.target,
+      $(e.target).attr("data-rating"),
+      $(e.target).parent().parent().attr("data-index")
+    );
   }
 });
 
