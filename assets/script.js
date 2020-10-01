@@ -126,12 +126,14 @@ function showFullCard(cardNumber) {
 function likeToggle(target, index) {
   let patchData;
   if (airtableResponse[index].fields.Liked) {
+    $(target).attr("src", "assets/images/heart-icon.svg");
     patchData = {
       fields: {
         Liked: false,
       },
     };
   } else {
+    $(target).attr("src", "assets/images/heart-icon-filled.svg");
     patchData = {
       fields: {
         Liked: true,
@@ -171,13 +173,6 @@ function updateReview(target, rating, index) {
   });
 }
 
-/*#### EVENT LISTENERS ####*/
-
-// event listener to handle filter button
-$("#filterBtn").click(function () {
-  $("#filterForm").toggle();
-});
-
 // loading spinner function
 function loading(status) {
   if (status === "on") {
@@ -188,6 +183,13 @@ function loading(status) {
     $("#loading").hide();
   }
 }
+
+/*#### EVENT LISTENERS ####*/
+
+// event listener to handle filter button
+$("#filterBtn").click(function () {
+  $("#filterForm").toggle();
+});
 
 // event listener to display the full card
 $("#cardContainer").click(function (e) {
